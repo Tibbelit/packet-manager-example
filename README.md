@@ -7,7 +7,7 @@ An example project, using npm
 `git clone https://github.com/Tibbelit/packet-manager-example.git`
 
 2. Navigate to the project folder
-`cd packer-mangager-example`
+`cd packet-manager-example`
 
 3. Install dependencies
 `npm install`
