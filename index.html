@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSSample</title>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+	<script src="node_modules/chart.js/dist/Chart.min.js"></script>
+</head>
+<body>
+
+<div class="chart-container" style="position: relative; height:30vh; width:90vw: margin: auto;">
+	<canvas id="myChart"></canvas>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+		// Add your free API-key here (get it here: https://fantasydata.com/pricing/nhl-data-api.aspx)
+		
+        $.ajax({
+            url: "https://api.fantasydata.net/v3/nhl/stats/json/Standings/2018",
+            beforeSend: function(xhrObj){
+                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", apiKey);
+            },
+            type: "GET"
+        })
+        .done(function(data) {
+		
+			var labels = data.map(function(team) {
+				return team.Name;
+			});
+			
+			var wins = data.map(function(team) {
+				return team.Wins;
+			});
+			
+			var backgroundColors = [
+				'rgba(255, 99, 132, 0.2)',
+				'rgba(54, 162, 235, 0.2)',
+				'rgba(255, 206, 86, 0.2)',
+				'rgba(75, 192, 192, 0.2)',
+				'rgba(153, 102, 255, 0.2)',
+				'rgba(255, 159, 64, 0.2)'
+			];
+			var backgroundBorders = [
+				'rgba(255,99,132,1)',
+				'rgba(54, 162, 235, 1)',
+				'rgba(255, 206, 86, 1)',
+				'rgba(75, 192, 192, 1)',
+				'rgba(153, 102, 255, 1)',
+				'rgba(255, 159, 64, 1)'
+			];
+			
+			var bgc = [];
+			var bgb = [];
+			for (var i = 0; i < labels.length; i++) {
+				bgc.push(backgroundColors[i%5]);
+				bgb.push(backgroundBorders[i%5]);
+			}
+
+			
+			var data = {
+				labels: labels,
+				datasets: [{
+					label: "# of wins season 2017/2018",
+					data: wins,
+					backgroundColor: bgc,
+					borderColor: bgb,
+					borderWidth: 1
+				}]
+			}
+		
+			var ctx = $("#myChart");
+			var myBarChart = new Chart(ctx, {
+				type: 'bar',
+				data: data,
+				options: {
+					scales: {
+						yAxes: [{
+							ticks: {
+								beginAtZero:true
+							}
+						}]
+					},
+					responsive: true
+				}
+			});
+
+        })
+        .fail(function() {
+            alert("error");
+        });
+    });
+</script>
+</body>
+</html>
