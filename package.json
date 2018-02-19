@@ -1,7 +1,7 @@
 {
-  "name": "anton-test",
+  "name": "packet-manage-example",
   "version": "1.0.0",
-  "description": "A test project",
+  "description": "A test project using NPM as packet manager, and an external API for viewing NHL-wins 2018",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
